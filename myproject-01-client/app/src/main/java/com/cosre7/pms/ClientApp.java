@@ -3,12 +3,12 @@
  */
 package com.cosre7.pms;
 
-public class App {
+public class ClientApp {
     public String getGreeting() {
         return "Hello World!";
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        System.out.println(new ClientApp().getGreeting());
     }
 }

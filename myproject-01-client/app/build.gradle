@@ -1,5 +1,20 @@
 plugins {
     id 'application'
+    id 'java'
+    id 'eclipse'
+}
+
+// 자바 소스를 컴파일 할 때 적용할 옵션
+tasks.withType(JavaCompile) {
+    // $javac -encoding UTF-8 ...
+    options.encoding = 'UTF-8';
+}
+
+// 이클립스의 프로젝트 이름 변경 코드 
+eclipse {
+    project {
+        name = "myproject-01-client"
+    }
 }
 
 repositories {
