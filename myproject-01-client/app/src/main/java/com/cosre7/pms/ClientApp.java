@@ -3,6 +3,7 @@ package com.cosre7.pms;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+import com.cosre7.pms.util.Prompt;
 
 public class ClientApp {
 
@@ -25,11 +26,21 @@ public class ClientApp {
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         DataInputStream in = new DataInputStream(socket.getInputStream())) {
 
-      out.writeUTF("hello");
-      out.flush();
+      while (true) {
+        String message = Prompt.inputString("명령> ");
 
-      String response = in.readUTF();
-      System.out.println(response);
+        out.writeUTF(message);
+        out.flush();
+
+        String response = in.readUTF();
+        System.out.println(response);
+
+        if (message.equals("quit")) {
+          break;
+        }
+      }
+
+      Prompt.close();
 
     } catch (Exception e) {
       System.out.println("서버와 통신 하는 중에 오류 발생!");
