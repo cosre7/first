@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ServerApp {
 
@@ -37,10 +38,40 @@ public class ServerApp {
         DataInputStream in = new DataInputStream(socket.getInputStream())) {
 
       while (true) {
+        // 1) 명령어 읽기
         String request = in.readUTF();
-        System.out.println(request);
 
+        // 2) 데이터 개수 읽기
+        int length = in.readInt();
+
+        // 3) 데이터 읽기
+        ArrayList<String> data = null;
+        if (length > 0) {
+          data = new ArrayList<>();
+          for (int i = 0; i < length; i++) {
+            data.add(in.readUTF());
+          }
+        }
+
+        System.out.println("------------------------------------");
+        System.out.printf("명령: %s\n", request);
+        System.out.printf("데이터 개수: %d\n", length);
+        if (data != null) {
+          System.out.println("데이터:");
+          for (String str : data) {
+            System.out.println(str);
+          }
+        }
+
+        // 1) 작업 결과
         out.writeUTF("success");
+
+        // 2) 데이터 개수
+        out.writeInt(1);
+
+        // 3) 데이터
+        out.writeUTF("test...ok!");
+
         out.flush();
 
         if (request.equals("quit")) {
